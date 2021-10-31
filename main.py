@@ -217,8 +217,7 @@ while True:
         if key[pygame.K_LEFT]:
             mouseX_change = -50
             steps_value += 1
-    if (mouseX < 50) or(mouseX < 550 and mouseY<50) or(mouseX < 550 and mouseY>=500) or (500<mouseX < 550 and 0<mouseY<200) or\
-            (500 < mouseX < 550 and 250 < mouseY < 500):
+    if (mouseX < 50) or(mouseX < 550 and mouseY<50) or(mouseX < 550 and mouseY>=500) or (500<mouseX < 550 and 0<mouseY<200) or(500 < mouseX < 550 and 250 < mouseY < 500):
         steps_value += 1
         pygame.quit()
         exit()
