@@ -1,3 +1,4 @@
+import time
 import pygame
 import random
 
@@ -19,13 +20,7 @@ font1 = pygame.font.Font(pygame.font.get_default_font(), 50)
 textX = 10
 textY = 10
 window = pygame.display.set_mode((550, 550))
-left=pygame.draw.rect(window, blue, [0, 0, 50, 500])
-bottom=pygame.draw.rect(window, blue, [0, 500, 500, 50])
-right1=pygame.draw.rect(window, blue, [500, 0, 50, 200])
-pygame.draw.rect(window, green, [500, 200, 50, 50])
-right2=pygame.draw.rect(window, blue, [500, 250, 50, 300])
-top=pygame.draw.rect(window, blue, [50, 0, 450, 400])
-"""list = [pygame.draw.rect(window, green, [500, 200, z, z]), \
+list = [pygame.draw.rect(window, green, [500, 200, z, z]), \
         pygame.draw.rect(window, blue, [0, 0, 50, 50]), \
         pygame.draw.rect(window, blue, [500, 0, 50, 50]), \
         pygame.draw.rect(window, blue, [0, 500, 50, 50]), \
@@ -65,8 +60,7 @@ top=pygame.draw.rect(window, blue, [50, 0, 450, 400])
         pygame.draw.rect(window, blue, [500, 350, 50, 50]), \
         pygame.draw.rect(window, blue, [500, 400, 50, 50]), \
         pygame.draw.rect(window, blue, [500, 450, 50, 50])
-        ]"""
-
+        ]
 row1 = [pygame.draw.rect(window, white, [x, y, z, z]), \
         pygame.draw.rect(window, pink, [x + 50, y, z, z]), \
         pygame.draw.rect(window, white, [x + 100, y, z, z]), \
@@ -167,6 +161,7 @@ row10 = [pygame.draw.rect(window, white, [x, y, z, z]), \
          pygame.draw.rect(window, pink, [x + 350, y, z, z]), \
          pygame.draw.rect(window, white, [x + 400, y, z, z])]
 catImg = pygame.image.load('cat.png')
+mouseImg = pygame.image.load('mouse.png')
 cat_pos = [[105, 60], [155, 60], [205, 60], [255, 60], [305, 60], [355, 60], [405, 60], [455, 60], \
            [55, 110], [105, 110], [155, 110], [205, 110], [255, 110], [305, 110], [355, 110], [405, 110], [455, 110], \
            [55, 160], [105, 160], [155, 160], [205, 160], [255, 160], [305, 160], [355, 160], [405, 160], [455, 160], \
@@ -180,20 +175,15 @@ cat_pos = [[105, 60], [155, 60], [205, 60], [255, 60], [305, 60], [355, 60], [40
 q, w = random.choice(cat_pos)
 catX = q
 catY = w
-
-mouseImg = pygame.image.load('mouse.png')
 mouseX = 55
 mouseY = 60
 mouseX_change = 0
 mouseY_change = 0
 
 
+
 def cat(catX, catY):
     window.blit(catImg, (catX, catY))
-
-
-pygame.display.update()
-
 
 def mouse(mouseX, mouseY):
     window.blit(mouseImg, (mouseX, mouseY))
@@ -201,13 +191,12 @@ def mouse(mouseX, mouseY):
 
 def show_steps(r, t):
     steps = font1.render("score :" + str(steps_value), True, (255, 255, 255))
-    # window.blit(steps,(r,t) )
 
 
 pygame.display.update()
 while True:
     for event in pygame.event.get():
-        if steps_value >= 20 or (mouseX == catX and mouseY == catY) or (mouseX==50 and mouseY==0):
+        if steps_value >= 20 or (mouseX == catX and mouseY == catY):
             steps_value += 1
             pygame.quit()
             exit()
@@ -228,6 +217,18 @@ while True:
         if key[pygame.K_LEFT]:
             mouseX_change = -50
             steps_value += 1
+    if (mouseX < 50) or(mouseX < 550 and mouseY<50) or(mouseX < 550 and mouseY>=500) or (500<mouseX < 550 and 0<mouseY<200) or\
+            (500 < mouseX < 550 and 250 < mouseY < 500):
+        steps_value += 1
+        pygame.quit()
+        exit()
+    elif 500<mouseX<550 and 200<mouseY<250:
+        message = font1.render(("You Win"), True, (0, 0, 0))
+        font1 = pygame.font.Font(pygame.font.get_default_font(), 50)
+        window.blit(message, (175 , 250))
+        time.sleep(0.5)
+
+
     mouseY += mouseY_change
     mouseX += mouseX_change
     mouseX_change = 0
@@ -237,4 +238,3 @@ while True:
     show_steps(textX, textY)
     pygame.display.update()
 
-    pass
